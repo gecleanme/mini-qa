@@ -17,7 +17,7 @@ class IssueController extends Controller
     public function index(Request $request)
     {
        // if(!auth()->user()->cannot('viewAny',Issue::class))
-     //   $this->authorize('viewAny', Issue::class);
+        $this->authorize('viewAny', Issue::class);
         $filters= $request->only(['title','priority','statuses','reporters','departments']);
         //$user_department= Auth::user()->name;
         return inertia('Index/Index',[
