@@ -21,7 +21,7 @@ Route::get('/dummy', function (){
     return 'it works!';
 });
 Route::get('/dev', [\App\Http\Controllers\IssueController::class,'dev_index'])->name('dev_index')->middleware('dev:dev');
-Route::get('issue/{issue}', [\App\Http\Controllers\IssueController::class,'show']);
+Route::get('issue/{issue}', [\App\Http\Controllers\IssueController::class,'show'])->middleware('auth');
 Route::get('/createIssue', [\App\Http\Controllers\IssueController::class,'create'])->middleware('auth');
 Route::post('/issue',[\App\Http\Controllers\IssueController::class,'store']);
 Route::get('issue/{issue}/edit', [\App\Http\Controllers\IssueController::class,'edit']);

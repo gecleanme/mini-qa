@@ -1,12 +1,4 @@
 <template>
-    <div style="display: none">
-<h1>This is Show</h1>
-    <Link href="/">Home</Link>
- <p>   {{issue.title}}</p>
-    <p>   {{issue.attachments}}</p>
-
-    <img :src="issue.att"/>
-    </div>
 
 
 <!-- Template start    -->
@@ -38,8 +30,12 @@
 
 
             </div>
-            <div v-if="issue.att" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+            <div v-if="issue.attachments" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
                 <img class="object-cover object-center w-full h-full" :src="issue.att" alt="stats">
+            </div>
+
+            <div v-else class="justify-content-center mb-6 mx-auto my-auto px-4 sm:p-4 text-center w-1/2">
+                <p class="mx-auto my-auto">No Attachments to Show</p>
             </div>
 
 
@@ -61,6 +57,7 @@ defineProps({
     }
 
 });
+
 </script>
 
 

@@ -23,37 +23,34 @@
 
     <FilterForm :departments="departments" :priority="priority" :reporters="reporters" :filters="filters" :statuses ="statuses"/>
         <!-- Template Start   -->
-    <div class="flex flex-col">
-        <div class="overflow-x-auto max-w-[100vw] sm:-mx-6 lg:-mx-8 flex justify-center ">
-            <div class="justify-items-center inline-block max-w-80  py-2 sm:px-6 lg:px-8 ">
-                <div class="overflow-hidden">
-                    <table class="min-w-full text-left text-sm font-light mx-auto">
-                        <thead class="border-b font-medium">
-                        <tr>
-                            <th scope="col" class="px-6 py-4">Title</th>
-                            <th scope="col" class="px-6 py-4">Department</th>
-                            <th scope="col" class="px-6 py-4">Priority</th>
-                            <th scope="col" class="px-6 py-4">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="issue in issues.data" :key="issue.id"
-                            class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">{{issue.title}}</td>
-                            <td class="whitespace-nowrap px-6 py-4">{{issue.department}}</td>
-                            <td class="whitespace-nowrap px-6 py-4">{{issue.priority}}</td>
-                            <td class="whitespace-nowrap px-6 py-4"><PrimaryButton :link ="`/issue/${issue.id}`" text="View Details"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <TablePagination :links="issues.links"></TablePagination>
-
-                </div>
-            </div>
+    <div class="overflow-x-auto">
+        <div class="w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto">
+            <table class="table-auto text-left text-xs sm:text-sm font-light mx-auto md:min-w-full">
+                <thead class="border-b font-medium">
+                <tr>
+                    <th scope="col" class="px-6 py-4">Title</th>
+                    <th scope="col" class="px-6 py-4">Department</th>
+                    <th scope="col" class="px-6 py-4">Priority</th>
+                    <th scope="col" class="px-6 py-4">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="!issues" class="mt-4">
+                    <td colspan="4" rowspan="5" class="text-sm text-gray-500 uppercase p-4 m-4 text-center">No Issues Found</td>
+                </tr>
+                <tr v-else v-for="issue in issues.data" :key="issue.id"
+                    class="border-b transition duration-300 ease-in-out hover:bg-neutral-100">
+                    <td class="truncate px-6 py-4 font-medium">{{issue.title}}</td>
+                    <td class="truncate px-6 py-4">{{issue.department}}</td>
+                    <td class="truncate px-6 py-4">{{issue.priority}}</td>
+                    <td class="truncate px-6 py-4">
+                        <PrimaryButton :link ="`/issue/${issue.id}`" text="View Details"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <TablePagination v-if="issues" :links="issues.links"></TablePagination>
         </div>
-
     </div>
         <!--  Template end    -->
 

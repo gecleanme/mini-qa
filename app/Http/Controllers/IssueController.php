@@ -116,7 +116,7 @@ class IssueController extends Controller
      */
     public function show(Issue $issue)
     {
-        //dd($issue->status);
+       // dd($issue);
         $issue->load(['reporter']);
         return inertia('Index/Show', [
             'issue' => $issue
