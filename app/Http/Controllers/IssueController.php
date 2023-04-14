@@ -22,7 +22,7 @@ class IssueController extends Controller
         //$user_department= Auth::user()->name;
         return inertia('Index/Index',[
             'filters' => $filters,
-            'issues' => Issue::with('reporter')->test()->filter($filters)->
+            'issues' => Issue::with('reporter')->filter($filters)->
             paginate(5)->withQueryString(),
             'departments' => ['Web', 'Android','iOS'],
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
@@ -37,24 +37,27 @@ class IssueController extends Controller
 
     public function dev_index(Request $request)
     {
+        $this->authorize('viewAnyDev', Issue::class);
+
         // if(!auth()->user()->cannot('viewAny',Issue::class))
           //$this->authorize('viewAnyDev', Issue::class);
         $filters= $request->only(['title','priority','statuses','reporters','departments']);
         $user_department= Auth::user()->department;
 
+        //dd(User::where('role', '=', 'QA')->get());
 
-       $users= \Cache::tags(['user_list'])->remember('users',now()->addDays(30), function (){
-            return User::all();
-        });
+       //$users= \Cache::remember('users',now()->addDays(30), function (){
+            //ret user
+        //});
 
 
         return inertia('Index/Index',[
             'filters' => $filters,
             'issues' => Issue::with('reporter')->latest()->where('department',$user_department)->filter($filters)->
-            paginate(5)->withQueryString(),
+            paginate(5)-> withQueryString(),
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => $users
+            'reporters' => User::where('role', '=', 'QA')->get()
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -65,6 +68,8 @@ class IssueController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Issue::class);
+
         return inertia('Issue/CreateIssue',[
             'departments' => ['Web', 'Android','iOS'],
             'priorities' => ['Very Low', 'Low','Moderate','High','Critical']
@@ -77,6 +82,8 @@ class IssueController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Issue::class);
+
         $validatedData = $request->validate([
             'title' => 'required|min:5|max:120',
             'department' => 'required',
@@ -101,7 +108,7 @@ class IssueController extends Controller
       //  \Mail::to('testreceiver@gmail.com’')->send(new CreatedEmail($user_name));
 
 
-        return redirect()->route('index')->with('success','Post Success');
+        return redirect("issue/{$issue->id}")->with('success','Post Success');
     }
 
     /**
@@ -123,6 +130,8 @@ class IssueController extends Controller
      */
     public function edit(Issue $issue)
     {
+        $this->authorize('update', Issue::class);
+
         return inertia('Issue/EditIssue',[
             'issue' => $issue,
             'departments' => ['Web', 'Android','iOS'],
@@ -133,6 +142,8 @@ class IssueController extends Controller
 
     public function edit_dev(Issue $issue)
     {
+        $this->authorize('updateDev', Issue::class);
+
         return inertia('Issue/EditIssueDev',[
             'issue' => $issue,
             'statuses' =>['Pending', 'In Progress','Complete','Rejected']
@@ -146,6 +157,8 @@ class IssueController extends Controller
      */
     public function update(Request $request, Issue $issue)
     {
+        $this->authorize('update', Issue::class);
+
         $issue->update($request->validate([
             'title' => 'required|min:5|max:120',
             'department' => 'required',
@@ -160,6 +173,8 @@ class IssueController extends Controller
      */
     public function update_dev(Request $request, Issue $issue)
     {
+        $this->authorize('updateDev', Issue::class);
+
         $issue->update($request->validate([
             'status' => 'required',
         ]));
@@ -172,6 +187,8 @@ class IssueController extends Controller
      */
     public function destroy(Issue $issue)
     {
+        $this->authorize('delete', Issue::class);
+
         $issue->delete();
         return back()
             ->with('success', 'Deleted!');
@@ -182,8 +199,9 @@ class IssueController extends Controller
      */
     public function destroy_file(Issue $issue)
     {
+        $this->authorize('delete', Issue::class);
+
         Storage::disk('public')->delete($issue->attachments);
-        return back()
-            ->with('success', 'File Deleted!');
+        session()->put('success', 'File Deleted!');
     }
 }

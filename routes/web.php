@@ -25,9 +25,9 @@ Route::get('issue/{issue}', [\App\Http\Controllers\IssueController::class,'show'
 Route::get('/createIssue', [\App\Http\Controllers\IssueController::class,'create'])->middleware('auth');
 Route::post('/issue',[\App\Http\Controllers\IssueController::class,'store']);
 Route::get('issue/{issue}/edit', [\App\Http\Controllers\IssueController::class,'edit']);
-Route::get('issue/{issue}/edit_dev', [\App\Http\Controllers\IssueController::class,'edit_dev']);
+Route::get('issue/{issue}/edit_dev', [\App\Http\Controllers\IssueController::class,'edit_dev'])->middleware('dev:dev');
 Route::put('/issue/{issue}',[\App\Http\Controllers\IssueController::class,'update']);
-Route::put('/issue_dev/{issue}',[\App\Http\Controllers\IssueController::class,'update_dev']);
+Route::put('/issue_dev/{issue}',[\App\Http\Controllers\IssueController::class,'update_dev'])->middleware('dev:dev');
 
 Route::delete('/issue/{issue}',[\App\Http\Controllers\IssueController::class,'destroy']);
 
@@ -37,11 +37,13 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class,'store'])->na
 Route::delete('/logout',[\App\Http\Controllers\AuthController::class,'destroy']);
 /*
  * TODO: work on deleting/re-uploading files in edit view
+ * TODO: Apply Policies
  * TODO: work on adding route middleware based on role, and add action buttons by reading role in the User Object (c)
  * TODO: Work on filtering index results based on role (Create a role-specific index controller, redirect to it based on role upon login) (c)
  * TODO: show success flash messages (c)
  * TODO: Handle exceptions/validation views (c)
  * TODO: Work on Dev Status update view (Core Complete)
+ * TODO: File Delete in Edit
  *
  * */
 

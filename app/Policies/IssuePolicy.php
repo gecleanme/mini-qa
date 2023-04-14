@@ -13,7 +13,7 @@ class IssuePolicy
      */
     public function viewAny(?User $user): bool
     {
-        return true;
+        return $user->role =='QA';
     }
 
     public function viewAnyDev(User $user): bool
@@ -35,7 +35,7 @@ class IssuePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->role =='QA';
     }
 
     /**
@@ -45,6 +45,12 @@ class IssuePolicy
     {
         return $user->id== $issue->reporter_id;
     }
+
+    public function updateDev(User $user, Issue $issue): bool
+    {
+        return $user->role =='dev' && $issue->department == $user->department;
+    }
+
 
     /**
      * Determine whether the user can delete the model.
