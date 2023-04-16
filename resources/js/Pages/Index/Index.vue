@@ -1,24 +1,6 @@
 <template>
 
-    <div
-        v-if="$page.props.flash.success"
-        class="mb-2 inline-flex w-25 items-center rounded-lg bg-green-300 px-6 py-5 text-base text-green-800 float-right text-center mt-6 "
-        role="alert">
-  <span class="mr-2">
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="h-5 w-5">
-      <path
-          fill-rule="evenodd"
-          d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
-          clip-rule="evenodd" />
-    </svg>
-  </span>
-        {{$page.props.flash.success}}
-    </div>
-
+<FlashSuccess/>
     <!--Filters-->
 
     <FilterForm :departments="departments" :priority="priority" :reporters="reporters" :filters="filters" :statuses ="statuses"/>
@@ -44,7 +26,21 @@
                     <td class="truncate px-6 py-4">{{issue.department}}</td>
                     <td class="truncate px-6 py-4">{{issue.priority}}</td>
                     <td class="truncate px-6 py-4">
-                        <PrimaryButton :link ="`/issue/${issue.id}`" text="View Details"/>
+                        <div class="flex space-x-1">
+                        <PrimaryButton :link ="`/issue/${issue.id}`" icon="visibility"/>
+                        <PrimaryButton :link ="`/issue/${issue.id}/edit`" icon="edit" v-if="issue.reporter_id === $page.props.user.id"/>
+                        <PrimaryButton :link ="`/issue/${issue.id}/edit_dev`" icon="edit" v-if="issue.department === $page.props.user.department && $page.props.user.role === 'dev'"/>
+                            <Link :href="`/issue/${issue.id}`"
+                                  method="delete"
+                                  as="button"
+                                  class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] bg-black text-white hover:bg-gray-800"
+                                  v-if="$page.props.user.id === issue.reporter_id"
+                                  >
+                                <i class="material-icons">delete</i>
+                            </Link>
+                        </div>
+
+
                     </td>
                 </tr>
                 </tbody>
@@ -58,11 +54,14 @@
 </template>
 
 <script setup>
+//if dev: match dep and add special link
+///issue/${issue.id}/edit_dev
 import {Link, usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import FilterForm from "@/Components/FilterForm.vue";
+import FlashSuccess from "@/Components/FlashSuccess.vue";
 
 const page = usePage();
 const msg = computed(

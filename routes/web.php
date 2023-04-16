@@ -35,16 +35,12 @@ Route::get('/login', [\App\Http\Controllers\AuthController::class,'create'])->na
 
 Route::post('/login', [\App\Http\Controllers\AuthController::class,'store'])->name('login.store');
 Route::delete('/logout',[\App\Http\Controllers\AuthController::class,'destroy']);
+Route::delete('/del/{issue}',[\App\Http\Controllers\IssueController::class,'destroy_file']);
+//destroy_file
 /*
- * TODO: work on deleting/re-uploading files in edit view
- * TODO: Apply Policies
- * TODO: work on adding route middleware based on role, and add action buttons by reading role in the User Object (c)
- * TODO: Work on filtering index results based on role (Create a role-specific index controller, redirect to it based on role upon login) (c)
- * TODO: show success flash messages (c)
- * TODO: Handle exceptions/validation views (c)
- * TODO: Work on Dev Status update view (Core Complete)
- * TODO: File Delete in Edit
- *
+
+
+/*
+ * TODO: Show and Upload in qa-edit
+ * TODO: Fix policy issues
  * */
-
-

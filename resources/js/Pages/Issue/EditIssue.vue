@@ -1,6 +1,8 @@
 <template>
 <form @submit.prevent="updateData">
 
+   <FlashSuccess/>
+
     <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
         <div class="container max-w-screen-lg mx-auto">
             <div>
@@ -64,7 +66,7 @@
                                                 <div class="flex text-sm text-gray-600">
                                                     <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-black hover:text-gray-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                                         <span class="text-center mx-auto">Upload a media file</span>
-                                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                                        <input id="file-upload" name="file-upload" type="file" class="sr-only" @input="packFiles">
                                                     </label>
                                                     <p class="pl-1 text-black">or drag and drop</p>
                                                 </div>
@@ -84,10 +86,23 @@
                                     </div>
                                 </div>
 
+                                <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments">
+                                    <p class="text-black text-md font-semibold mt-2">Existing attachments</p>
+                                    <img :src="formData.att" v-if="formData.attachments" height="300" width="300" class="rounded-3 mt-4" />
+                                </div>
+
 
                                 <div class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
-                                        <button class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded">Edit Issue</button>
+                                        <Link
+                                            class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] bg-black text-white hover:bg-gray-800"
+                                            :href="`/del/${issue.id}`"
+                                            method="delete"
+                                            as="button"
+                                            v-if="issue.attachments"
+                                        >Delete File</Link>
+
+                                        <button class="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded ml-2">Edit Issue</button>
                                     </div>
                                 </div>
 
@@ -102,8 +117,18 @@
 </form>
 </template>
 
+<script>
+import MainLayout from "@/Layouts/MainLayout.vue";
+
+export default {
+    layout: MainLayout
+}
+</script>
+
 <script setup>
 import {useForm} from "@inertiajs/vue3";
+import {Link} from "@inertiajs/vue3";
+import FlashSuccess from "@/Components/FlashSuccess.vue";
 
 const props = defineProps({
     issue:Object,
@@ -119,8 +144,17 @@ const formData = useForm({
     title: props.issue.title,
     department:props.issue.department,
     priority:props.issue.priority,
-    description:props.issue.description
+    description:props.issue.description,
+    attachments: props.issue.attachments,
+    att: props.issue.att
 });
+
+const packFiles = (event) => {
+    for(const att of event.target.files){
+        formData.attachments=att;
+    }
+}
+
 
 const updateData = () => formData.put(`/issue/${props.issue.id}`)
 </script>

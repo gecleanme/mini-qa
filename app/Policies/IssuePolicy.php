@@ -41,14 +41,16 @@ class IssuePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Issue $issue): bool
+    public function update(/*User $user, Issue $issue*/): bool
     {
-        return $user->id== $issue->reporter_id;
+        //return $user->id== $issue->reporter_id;
+        return true;
     }
 
-    public function updateDev(User $user, Issue $issue): bool
+    public function updateDev(User $user, Issue $issue) : bool
     {
         return $user->role =='dev' && $issue->department == $user->department;
+        //return true;
     }
 
 
@@ -57,6 +59,8 @@ class IssuePolicy
      */
     public function delete(User $user, Issue $issue): bool
     {
+        // user variable injectefd by framework ok thanks
+        // go bk to work pls
         return $user->id== $issue->reporter_id;
 
     }

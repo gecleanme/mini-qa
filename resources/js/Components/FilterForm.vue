@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center items-center mt-6 mb-6 w-full md:w-3/4 lg:w-90 mx-auto">
-        <form class="flex flex-col items-center w-full px-4 py-8 rounded-lg shadow-md bg-gray-100">
+        <form @submit.prevent="filter" class="flex flex-col items-center w-full px-4 py-8 rounded-lg shadow-md bg-gray-100">
             <div class="flex flex-wrap justify-center gap-2 mb-8">
                 <div class="flex flex-wrap gap-2 w-full sm:w-auto">
                     <select class="w-full sm:w-auto px-3 py-2 text-gray-700 border

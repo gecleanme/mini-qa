@@ -1,6 +1,6 @@
 <template>
 
-
+<FlashSuccess/>
 <!-- Template start    -->
 
     <section class="text-gray-600 body-font">
@@ -49,6 +49,7 @@
 
 <script setup>
 import {Link} from "@inertiajs/vue3";
+import FlashSuccess from "@/Components/FlashSuccess.vue";
 
 defineProps({
     issue:{

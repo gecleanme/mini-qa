@@ -68,7 +68,7 @@
                                             <div class="flex text-sm text-gray-600">
                                                 <label for="file-upload" class="p-2 mt-2 relative cursor-pointer bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                                     <span class="text-center mx-auto">Upload a media file</span>
-                                                    <input id="file-upload" name="file-upload" type="file" @input="packFiles" class="p-2 mt-2 sr-only" accept=".jpg,.png,.mp4">
+                                                    <input id="file-upload" name="file-upload" type="file" @input="packFiles" class="p-2 mt-2 sr-only" accept=".jpg,.png,.mp4" :disabled="formData.attachments">
 
                                                 </label>
                                                 <p class="text-sm text-black mt-4 ml-1" v-if="formData.attachments">
@@ -125,14 +125,6 @@ defineProps({
 
 
 import {useForm} from "@inertiajs/vue3";
-// import {Inertia} from '@inertiajs/inertia';
-// import {NProgress} from 'nprogress';
-//
-// Inertia.on('progress', (event) => {
-//     if (event.detail.progress.percentage) {
-//         NProgress.set((event.detail.progress.percentage / 100) * 0.9)
-//     }
-// })
 
 const formData = useForm({
 //create form and v-model the elements

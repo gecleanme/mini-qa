@@ -6,6 +6,7 @@
 
         <title>Stack Training </title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
         @vite('resources/js/app.js')
         @inertiaHead

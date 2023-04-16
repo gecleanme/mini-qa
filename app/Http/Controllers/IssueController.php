@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Issue;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Storage;
 
 class IssueController extends Controller
@@ -132,6 +133,7 @@ class IssueController extends Controller
     {
         $this->authorize('update', Issue::class);
 
+
         return inertia('Issue/EditIssue',[
             'issue' => $issue,
             'departments' => ['Web', 'Android','iOS'],
@@ -157,14 +159,23 @@ class IssueController extends Controller
      */
     public function update(Request $request, Issue $issue)
     {
-        $this->authorize('update', Issue::class);
+        $this->authorize('update', $issue);
 
         $issue->update($request->validate([
             'title' => 'required|min:5|max:120',
             'department' => 'required',
             'priority' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'attachments' =>''
         ]));
+
+        if ($request->hasFile('attachments')) {
+            $file = $request->file('attachments');
+            $path = $file->store('attachments');
+            $issue->attachments = $path;
+            $issue->save();
+        }
+
         return redirect()->route('index')->with('success','Edit Success');
     }
 
@@ -173,7 +184,7 @@ class IssueController extends Controller
      */
     public function update_dev(Request $request, Issue $issue)
     {
-        $this->authorize('updateDev', Issue::class);
+        $this->authorize('updateDev', $issue);
 
         $issue->update($request->validate([
             'status' => 'required',
@@ -187,7 +198,7 @@ class IssueController extends Controller
      */
     public function destroy(Issue $issue)
     {
-        $this->authorize('delete', Issue::class);
+        $this->authorize('delete', $issue);
 
         $issue->delete();
         return back()
@@ -198,10 +209,14 @@ class IssueController extends Controller
      * Remove the specified resource attached file from storage.
      */
     public function destroy_file(Issue $issue)
+
     {
-        $this->authorize('delete', Issue::class);
+        //dd($issue->attachments);
+        //$this->authorize('delete', $issue);
 
         Storage::disk('public')->delete($issue->attachments);
+        $issue->attachments = null;
+        $issue->save();
         session()->put('success', 'File Deleted!');
     }
 }
