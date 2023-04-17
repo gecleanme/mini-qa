@@ -24,7 +24,6 @@ class IssueFactory extends Factory
             'title' => $this->faker->word(),
             'priority' => $this->faker->word(),
             'description' => $this->faker->paragraph(2),
-            'attachments' => $this->faker->word(),
             'department' => $this->faker->word(),
             'status' => $this->faker->word()
         ];

@@ -9,10 +9,18 @@
                 <span class="ml-3 text-xl">SimpleQA</span>
             </a>
             <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                <a class="mr-5 hover:text-gray-900"
 
-                >My Issues</a>
-<!--                <a class="mr-5 hover:text-gray-900">Second Link</a>-->
+                <Link
+                    :href=myIssuesLink()
+                    as="button"
+                    class="mr-5 hover:text-gray-900"
+                    v-if="$page.props.user"
+                >
+                    Pending Issues
+                </Link>
+
+
+                <!--                <a class="mr-5 hover:text-gray-900">Second Link</a>-->
                 <Link
                     class="mr-5 hover:text-gray-900"
                     href="/logout"
@@ -62,6 +70,8 @@
 import {Link, usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
 
+
+
 const userData = computed(
     () => {
         if(usePage().props.user)
@@ -71,6 +81,22 @@ const userData = computed(
         else return null
     }
 );
+
+const myIssuesLink = () => {
+    const { user } = usePage().props;
+    const baseUrl = 'http://localhost:8000';
+    const baseUrlDev = 'http://localhost:8000/dev'
+    let link = '';
+
+    if (user.role === 'dev') {
+        link = `${baseUrlDev}/?department=${user.department}&status=Pending`;
+    } else {
+        link = `${baseUrl}/?reporter=${user.id}&status=Pending`;
+    }
+
+    return link;
+};
+
 
 
 

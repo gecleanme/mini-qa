@@ -41,10 +41,10 @@ class IssuePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(/*User $user, Issue $issue*/): bool
+    public function update(User $user, Issue $issue): bool
     {
-        //return $user->id== $issue->reporter_id;
-        return true;
+        return $user->id== $issue->reporter_id;
+        //return true;
     }
 
     public function updateDev(User $user, Issue $issue) : bool

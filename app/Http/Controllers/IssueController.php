@@ -131,7 +131,7 @@ class IssueController extends Controller
      */
     public function edit(Issue $issue)
     {
-        $this->authorize('update', Issue::class);
+        $this->authorize('update', $issue);
 
 
         return inertia('Issue/EditIssue',[
@@ -143,8 +143,9 @@ class IssueController extends Controller
     }
 
     public function edit_dev(Issue $issue)
+
     {
-        $this->authorize('updateDev', Issue::class);
+        $this->authorize('updateDev',$issue);
 
         return inertia('Issue/EditIssueDev',[
             'issue' => $issue,
@@ -189,7 +190,7 @@ class IssueController extends Controller
         $issue->update($request->validate([
             'status' => 'required',
         ]));
-        return redirect()->route('index')->with('success','Status Update Success');
+        return redirect('/dev')->with('success','Status Update Success');
     }
 
 

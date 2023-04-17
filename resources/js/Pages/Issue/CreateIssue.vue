@@ -14,7 +14,7 @@
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
                             <p class="font-medium text-lg">Issue Details</p>
-                            <p>All fields required</p>
+                            <p>All fields required except Attachments</p>
                         </div>
 
                         <div class="lg:col-span-2">
@@ -22,12 +22,15 @@
                                 <div class="md:col-span-5">
                                     <label for="full_name">Title</label>
                                     <input type="text" v-model="formData.title" id="full_name" class="h-10 outline-white border-gray-300 mt-1 rounded px-4 w-full"/>
+                                    <p v-if="formData.errors.title" class="text-sm text-red-500 font-semibold">{{formData.errors.title}}</p>
                                 </div>
 
 
                                 <div class="md:col-span-6">
                                     <label class="text-black" for="textarea">Description</label>
                                     <textarea id="textarea" v-model="formData.description" type="textarea" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+                                    <p v-if="formData.errors.description" class="text-sm text-red-500 font-semibold">{{formData.errors.description}}</p>
+
                                 </div>
 
 
@@ -38,6 +41,7 @@
                                             <option value="" selected>Priority</option>
                                             <option v-for="(priority, index) in priorities" :value="priority" :key="index">{{priority}}</option>
                                         </select>
+                                        <p v-if="formData.errors.priority" class="text-sm text-red-500 font-semibold">{{formData.errors.priority}}</p>
 
                                     </div>
 
@@ -51,7 +55,7 @@
                                             <option v-for="department in departments" :key="department" :value="department">{{ department }}</option>
                                         </select>
 
-                                        <div class="text-red-500" v-if="formData.errors.department">{{formData.errors.department}}</div>
+                                        <div class="text-red-500 text-sm font-semibold" v-if="formData.errors.department">{{formData.errors.department}}</div>
                                     </div>
 
 
