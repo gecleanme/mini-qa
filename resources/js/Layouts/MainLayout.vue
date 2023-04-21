@@ -66,11 +66,16 @@
     </footer>
 </template>
 
+
+<script>
+
+export default {}
+
+</script>
+
 <script setup>
 import {Link, usePage} from "@inertiajs/vue3";
-import {computed} from "vue";
-
-
+import {computed, onMounted} from "vue";
 
 const userData = computed(
     () => {
@@ -100,8 +105,15 @@ const myIssuesLink = () => {
 
 
 
-</script>
+//const emit=defineEmits(['toggle-filter'])
 
+
+
+
+// const toggleFilter = () => {
+//     props.showFilter = !props.showFilter;
+// };
+</script>
 <style scoped>
 
 </style>

@@ -16,8 +16,3 @@ Route::get('/login', [\App\Http\Controllers\AuthController::class,'create'])->na
 Route::post('/login', [\App\Http\Controllers\AuthController::class,'store'])->name('login.store');
 Route::delete('/logout',[\App\Http\Controllers\AuthController::class,'destroy']);
 Route::delete('/del/{issue}',[\App\Http\Controllers\IssueController::class,'destroy_file']);
-
-
-/*
- * TODO: Show and Upload in qa-edit
- * */

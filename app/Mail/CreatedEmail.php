@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CreatedEmail extends Mailable
+class CreatedEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -37,9 +37,10 @@ class CreatedEmail extends Mailable
      */
     public function content()
     {
+
         return new Content(
             with: ['name' => $this->data],
-            htmlString:'<p>00</p>'
+            htmlString:"Hi",
         // I think I got it
         );
     }

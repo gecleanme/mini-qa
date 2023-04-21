@@ -50,6 +50,7 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
 import FlashSuccess from "@/Components/FlashSuccess.vue";
+import ConfrimDelete from "@/Components/ConfrimDelete.vue";
 
 defineProps({
     issue:{
