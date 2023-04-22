@@ -33,15 +33,7 @@
                             <PrimaryButton :link ="`/issue/${issue.id}`" icon="visibility"/>
                             <PrimaryButton :link ="`/issue/${issue.id}/edit`" icon="edit" v-if="issue.reporter_id === $page.props.user.id"/>
                             <PrimaryButton :link ="`/issue/${issue.id}/edit_dev`" icon="edit" v-if="issue.department === $page.props.user.department && $page.props.user.role === 'dev'"/>
-                            <!--                            <Link :href="`/issue/${issue.id}`"-->
-                            <!--                                  method="delete"-->
-                            <!--                                  as="button"-->
-                            <!--                                  class="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] bg-black text-white hover:bg-gray-800"-->
-                            <!--                                  v-if="$page.props.user.id === issue.reporter_id"-->
-                            <!--                                  >-->
-                            <!--                                <i class="material-icons">delete</i>-->
-                            <!--                            </Link>-->
-                            <ConfrimDelete :issue="issue"/>
+                            <ConfrimDelete :issue="issue" v-if="issue.reporter_id === $page.props.user.id"/>
                         </div>
 
 
@@ -68,6 +60,7 @@ import FilterForm from "@/Components/FilterForm.vue";
 import FlashSuccess from "@/Components/FlashSuccess.vue";
 import ConfrimDelete from "@/Components/ConfrimDelete.vue";
 import MainLayout from "@/Layouts/MainLayout.vue";
+
 
 const page = usePage();
 const msg = computed(
@@ -98,11 +91,6 @@ const props = defineProps({
         type:Array
     }
 })
-
-const toggleFilter = (show) => {
-    show = !show
-    console.log('triggered')
-}
 
 </script>
 

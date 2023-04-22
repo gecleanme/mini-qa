@@ -94,9 +94,9 @@ const myIssuesLink = () => {
     let link = '';
 
     if (user.role === 'dev') {
-        link = `${baseUrlDev}/?department=${user.department}&status=Pending`;
+        link = `${baseUrlDev}?priority=&statuses=Pending&title=&reporters=`;
     } else {
-        link = `${baseUrl}/?reporter=${user.id}&status=Pending`;
+        link = `${baseUrl}/?priority=&status=Pending&title=&reporters=${user.id}&departments=`; //?priority=&statuses=&title=&reporters=1&departments= //
     }
 
     return link;
