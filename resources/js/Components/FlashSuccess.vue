@@ -5,12 +5,21 @@ import $swal from "sweetalert2";
 import {usePage} from "@inertiajs/vue3";
 
     if (usePage().props.flash.success) {
-        $swal.fire({
+        const Toast = $swal.mixin({
+            toast: true,
             position: 'top-end',
-            icon: 'success',
-            title: 'Operation succeeded',
             showConfirmButton: false,
-            timer: 1500
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', $swal.stopTimer)
+                toast.addEventListener('mouseleave', $swal.resumeTimer)
+            }
+        })
+
+        Toast.fire({
+            icon: 'success',
+            title: 'Operation Succeeded'
         })
     }
 

@@ -19,10 +19,11 @@ export default {
             this.$swal.fire({
                 title: 'Delete Issue?',
                 text: "Are you sure? You won't be able to revert this!",
-                icon: 'warning',
+                icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#000',
+                cancelButtonColor: '#000',
+                showCloseButton:true,
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -35,11 +36,12 @@ export default {
                         })
 
 
-                    this.$swal.fire(
-                        'Deleted!',
-                        'Issue has been deleted.',
-                        'success'
-                    )
+                    this.$swal.fire({
+                        title: 'Deleted',
+                        text: "Issue Permanently Deleted",
+                        icon: 'success',
+                        confirmButtonColor: '#000'
+                    })
                 }
             })
         },
