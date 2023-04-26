@@ -1,16 +1,32 @@
 <template>
-<MainLayout>
-
+    <Head title="Home">
+    </Head>
     <FlashSuccess/>
     <!--Filters-->
 
     <FilterForm :departments="departments" :priority="priority" :reporters="reporters" :filters="filters" :statuses ="statuses"
 
     />
+
+            <!--
+
+               <v-container>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-skeleton-loader
+          class="mx-auto border"
+          max-width="300"
+          type="card-avatar, actions"
+        ></v-skeleton-loader>
+      </v-col>
+
+              -->
+
+
     <!-- Template Start   -->
-    <div class="overflow-x-auto">
+        <div class="overflow-x-auto">
         <div class="w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto">
-            <table class="table-auto text-left text-xs sm:text-sm font-light mx-auto md:min-w-full">
+                    <table class="table-auto text-left text-xs sm:text-sm font-light mx-auto md:min-w-full">
                 <thead class="border-b font-medium">
                 <tr>
                     <th scope="col" class="px-6 py-4">Title</th>
@@ -43,15 +59,14 @@
             </table>
             <TablePagination v-if="issues" :links="issues.links"></TablePagination>
         </div>
+
     </div>
 
-</MainLayout>
+<!--    <button @click="logger">Log me</button>-->
+
 
 </template>
 <script setup>
-
-//if dev: match dep and add special link
-///issue/${issue.id}/edit_dev
 import {Link, usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -59,8 +74,6 @@ import TablePagination from "@/Components/TablePagination.vue";
 import FilterForm from "@/Components/FilterForm.vue";
 import FlashSuccess from "@/Components/FlashSuccess.vue";
 import ConfrimDelete from "@/Components/ConfrimDelete.vue";
-import MainLayout from "@/Layouts/MainLayout.vue";
-
 
 const page = usePage();
 const msg = computed(
@@ -95,8 +108,12 @@ const props = defineProps({
 </script>
 
 <script>
+import myMixin from "@/Components/Mixins/myMixin";
+import MainLayout from "@/Layouts/MainLayout.vue";
+
 export default {
-    // layout :MainLayout
+mixins:[myMixin],
+    layout: MainLayout
 }
 
 </script>

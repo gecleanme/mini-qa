@@ -21,7 +21,7 @@
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5 rounded-md border-white outline-white">
                                 <div class="md:col-span-5">
                                     <label for="full_name">Title</label>
-                                    <input type="text" v-model="formData.title" id="full_name" class="h-10 outline-white border-gray-300 mt-1 rounded px-4 w-full"/>
+                                    <input type="text" v-model="formData.title" id="full_name" class="h-10 outline-white border border-gray-300 mt-1 rounded px-4 w-full"/>
                                     <p v-if="formData.errors.title" class="text-sm text-red-500 font-semibold">{{formData.errors.title}}</p>
                                 </div>
 
@@ -88,7 +88,7 @@
 
                                 <div class="md:col-span-5 mt-6">
                                     <div class="inline-flex items-center">
-                                        <input type="checkbox" name="billing_same" id="billing_same" class="form-checkbox" />
+                                        <input type="checkbox" name="billing_same" id="billing_same" class="form-checkbox border border-gray-300" />
                                         <label for="billing_same" class="ml-2">Delete attachments on issue completion</label>
                                     </div>
                                 </div>

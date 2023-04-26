@@ -28,7 +28,14 @@ class IssueController extends Controller
             'departments' => ['Web', 'Android','iOS'],
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => User::all()
+            'reporters' => User::all()->map(fn ($user)=>[
+
+                'name' => $user->name,
+                'role' => $user->role,
+                'department' => $user->department,
+                'id' => $user->id
+
+            ])
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -58,7 +65,16 @@ class IssueController extends Controller
             paginate(5)-> withQueryString(),
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => User::where('role', '=', 'QA')->get()
+            'reporters' => User::where('role', '=', 'QA')->get()->map(fn ($user) => [
+
+                'name' => $user->name,
+                'role' => $user->role,
+                'department' => $user->department,
+                'id' => $user->id
+
+
+
+            ])
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }

@@ -29,7 +29,20 @@
                     v-if="$page.props.user"
                 >Logout</Link>
 
-<!--                <Link-->
+                    <div class="mr-5 hover:text-gray-900">
+                        <v-switch
+                            v-if="$page.props.user && $page.component==='Index/Index'"
+                            v-model="switcher"
+                            label="Filters"
+                            color="black"
+                            hide-details
+                        ></v-switch>
+
+                    </div>
+
+
+
+                <!--                <Link-->
 <!--                    class="mr-5 hover:text-gray-900"-->
 <!--                    href="/login"-->
 <!--                    v-if="!$page.props.user"-->
@@ -37,7 +50,7 @@
 
 
             </nav>
-            <Link href="/createIssue" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+            <Link href="/createIssue" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0"
             v-if="$page.props.user?.role==='QA'">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
                 <path d="M12 5v14M5 12h14"></path>
@@ -75,7 +88,9 @@ export default {}
 
 <script setup>
 import {Link, usePage} from "@inertiajs/vue3";
-import {computed, onMounted} from "vue";
+import {computed, onMounted, provide, ref} from "vue";
+
+let switcher = ref(false);
 
 const userData = computed(
     () => {
@@ -113,6 +128,8 @@ const myIssuesLink = () => {
 // const toggleFilter = () => {
 //     props.showFilter = !props.showFilter;
 // };
+
+provide('switcher', switcher)
 </script>
 <style scoped>
 
