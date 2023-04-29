@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Mail\CreatedEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,14 +29,7 @@ class IssueController extends Controller
             'departments' => ['Web', 'Android','iOS'],
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => User::all()->map(fn ($user)=>[
-
-                'name' => $user->name,
-                'role' => $user->role,
-                'department' => $user->department,
-                'id' => $user->id
-
-            ])
+            'reporters' => UserResource::collection(User::all()->where('role','=','QA'))
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -65,16 +59,7 @@ class IssueController extends Controller
             paginate(5)-> withQueryString(),
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => User::where('role', '=', 'QA')->get()->map(fn ($user) => [
-
-                'name' => $user->name,
-                'role' => $user->role,
-                'department' => $user->department,
-                'id' => $user->id
-
-
-
-            ])
+            'reporters' => UserResource::collection(User::all()->where('role','=','QA'))
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -107,7 +92,7 @@ class IssueController extends Controller
             'priority' => 'required',
             'description' => 'required',
             'status' => 'sting',
-            'attachments' => ''
+            'attachments' => 'mimes:mp4,jpg,png'
         ]);
 
         $issue = $request->user()->issues()->create($validatedData);

@@ -30,12 +30,12 @@
 
 
             </div>
-                    <div v-if="issue.attachments.includes('.mp4')" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+                    <div v-if="issue.attachments?.includes('.mp4')" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
                         <video :src="issue.att" class="object-cover object-center w-full h-full" controls autoplay ></video>
             </div>
 
 
-            <div v-else-if="!issue.attachments.includes('.mp4')" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
+            <div v-else-if="!issue.attachments?.includes('.mp4')" class="lg:w-1/2 sm:w-1/3 w-full rounded-lg overflow-hidden mt-6 sm:mt-0">
                 <img class="object-cover object-center w-full h-full" :src="issue.att" alt="stats">
             </div>
 

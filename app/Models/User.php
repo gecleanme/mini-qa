@@ -28,12 +28,16 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for serialization.
+     * You may also declare an inverse $visible array
+     * or chain only(['atrrs']) on the model instance
      *
      * @var array<int, string>
      */
     protected $hidden = [
         'password',
         'remember_token',
+        'email',
+        'email_verified_at'
     ];
 
     /**

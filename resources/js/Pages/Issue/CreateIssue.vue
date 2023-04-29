@@ -83,6 +83,7 @@
                                                 PNG, JPG, MP4
                                             </p>
                                         </div>
+                                            <p v-if="formData.errors.attachments">{{formData.errors.attachments}}</p>
                                     </div>
 
 

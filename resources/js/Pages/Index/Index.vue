@@ -67,13 +67,16 @@
 
 </template>
 <script setup>
-import {Link, usePage} from "@inertiajs/vue3";
+import {usePage} from "@inertiajs/vue3";
 import {computed} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TablePagination from "@/Components/TablePagination.vue";
 import FilterForm from "@/Components/FilterForm.vue";
 import FlashSuccess from "@/Components/FlashSuccess.vue";
 import ConfrimDelete from "@/Components/ConfrimDelete.vue";
+
+
+
 
 const page = usePage();
 const msg = computed(
@@ -113,7 +116,7 @@ import MainLayout from "@/Layouts/MainLayout.vue";
 
 export default {
 mixins:[myMixin],
-    layout: MainLayout
+layout: MainLayout
 }
 
 </script>
