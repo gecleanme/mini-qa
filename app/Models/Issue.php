@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -9,16 +11,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Issue extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $guarded = [];
-    protected $appends= ['att'];
+    protected $appends= ['att']; // virtual column to grab working file path
 
 
 
     public function reporter()
     {
-        return $this->belongsTo(User::class,'reporter_id'); //glue key is same in the 2 models
+        return $this->belongsTo(User::class, 'reporter_id'); //glue key is same in the 2 models
     }
 
     public function getAttAttribute()
@@ -27,23 +30,21 @@ class Issue extends Model
     }
 
 
-    public function scopeFilter(Builder $query, array $filters) :Builder
+    public function scopeFilter(Builder $query, array $filters): Builder
     {
-        return $query->when($filters['title'] ?? false, fn ($query, $value) => $query->where('title', 'LIKE','%'.$value.'%'))
-            ->when($filters['statuses'] ?? false, fn ($query,$value) => $query->where('status',$value))
-            ->when($filters['priority'] ?? false, fn ($query,$value) => $query->where('priority',$value))
-            ->when($filters['departments'] ?? false, fn ($query,$value) => $query->where('department', $value))
-            ->when($filters['reporters'] ?? false, fn ($query,$value) => $query->where('reporter_id',$value))
-            ->when($filters['statuses'] ?? false, fn ($query, $value) => $query->where('status',$value));
+        return $query->when($filters['title'] ?? false, fn ($query, $value) => $query->where('title', 'LIKE', '%'.$value.'%'))
+            ->when($filters['statuses'] ?? false, fn ($query, $value) => $query->where('status', $value))
+            ->when($filters['priority'] ?? false, fn ($query, $value) => $query->where('priority', $value))
+            ->when($filters['departments'] ?? false, fn ($query, $value) => $query->where('department', $value))
+            ->when($filters['reporters'] ?? false, fn ($query, $value) => $query->where('reporter_id', $value))
+            ->when($filters['statuses'] ?? false, fn ($query, $value) => $query->where('status', $value));
     }
 
 
     public function scopeTest(Builder $query): Builder
     {
-       return $query->orderBy('updated_at','desc');
+        return $query->orderBy('updated_at', 'desc');
     }
 
 
 }
-
-

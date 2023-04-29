@@ -87,11 +87,10 @@
                                     </div>
 
 
-                                <div class="md:col-span-5 mt-6">
-                                    <div class="inline-flex items-center">
-                                        <input type="checkbox" name="billing_same" id="billing_same" class="form-checkbox border border-gray-300" />
-                                        <label for="billing_same" class="ml-2">Delete attachments on issue completion</label>
-                                    </div>
+                                <div class="md:col-span-5 mt-2">
+                                    <p class="text-sm text-red-500 font-italic">
+                                        *Attachments will be deleted upon issue completion
+                                    </p>
                                 </div>
 
 

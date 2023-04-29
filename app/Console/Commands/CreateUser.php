@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Models\Issue;
@@ -32,11 +34,11 @@ class CreateUser extends Command
         $name = $this->ask('Enter name');
         $email = $this->ask('Enter email');
         $password = bcrypt($this->secret('What is the password?'));
-        $role = $this->choice('Enter role',['QA','dev']);
+        $role = $this->choice('Enter role', ['QA','dev']);
 
         $departments=Issue::query()->select('department')->get()->pluck('department')->unique()->toArray();
 
-        $dept = $role == 'QA' ? '': $this->choice('Enter dept',$departments);
+        $dept = $role == 'QA' ? '' : $this->choice('Enter dept', $departments);
 
         // Create the user
         $user = new User([

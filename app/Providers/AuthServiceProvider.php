@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
@@ -24,8 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         //
 
-        \Gate::define('dummy',function (User $user){
-           return $user->email == 'test@example.com';
+        \Gate::define('dummy', function (User $user) {
+            return $user->email == 'test@example.com';
         });
     }
 }

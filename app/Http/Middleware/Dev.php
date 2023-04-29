@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -16,7 +18,7 @@ class Dev
     public function handle(Request $request, Closure $next, string $role): Response
     {
         if (!auth()->check() || auth()->user()->role !== $role) {
-            abort(403,"You don't have access to this page");
+            abort(403, "You don't have access to this page");
         }
 
         return $next($request);

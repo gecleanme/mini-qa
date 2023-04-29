@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
+use App\Jobs\DeleteCompletedAttachments;
 use App\Mail\CreatedEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Issue;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Storage;
 
 class IssueController extends Controller
@@ -18,18 +20,18 @@ class IssueController extends Controller
      */
     public function index(Request $request)
     {
-       // if(!auth()->user()->cannot('viewAny',Issue::class))
+        // if(!auth()->user()->cannot('viewAny',Issue::class))
         $this->authorize('viewAny', Issue::class);
         $filters= $request->only(['title','priority','statuses','reporters','departments']);
         //$user_department= Auth::user()->name;
-        return inertia('Index/Index',[
+        return inertia('Index/Index', [
             'filters' => $filters,
             'issues' => Issue::with('reporter')->filter($filters)->
             paginate(5)->withQueryString(),
             'departments' => ['Web', 'Android','iOS'],
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => UserResource::collection(User::all()->where('role','=','QA'))
+            'reporters' => UserResource::collection(User::all()->where('role', '=', 'QA'))
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -42,24 +44,24 @@ class IssueController extends Controller
         $this->authorize('viewAnyDev', Issue::class);
 
         // if(!auth()->user()->cannot('viewAny',Issue::class))
-          //$this->authorize('viewAnyDev', Issue::class);
+        //$this->authorize('viewAnyDev', Issue::class);
         $filters= $request->only(['title','priority','statuses','reporters','departments']);
         $user_department= Auth::user()->department;
 
         //dd(User::where('role', '=', 'QA')->get());
 
-       //$users= \Cache::remember('users',now()->addDays(30), function (){
-            //ret user
+        //$users= \Cache::remember('users',now()->addDays(30), function (){
+        //ret user
         //});
 
 
-        return inertia('Index/Index',[
+        return inertia('Index/Index', [
             'filters' => $filters,
-            'issues' => Issue::with('reporter')->latest()->where('department',$user_department)->filter($filters)->
+            'issues' => Issue::with('reporter')->latest()->where('department', $user_department)->filter($filters)->
             paginate(5)-> withQueryString(),
             'priority' => ['Very Low', 'Low','Moderate','High','Critical'],
             'statuses' =>['Pending', 'In Progress','Complete','Rejected'],
-            'reporters' => UserResource::collection(User::all()->where('role','=','QA'))
+            'reporters' => UserResource::collection(User::all()->where('role', '=', 'QA'))
             //supply filters, they're automatically passed to local scope filter in Model
         ]);
     }
@@ -72,7 +74,7 @@ class IssueController extends Controller
     {
         $this->authorize('create', Issue::class);
 
-        return inertia('Issue/CreateIssue',[
+        return inertia('Issue/CreateIssue', [
             'departments' => ['Web', 'Android','iOS'],
             'priorities' => ['Very Low', 'Low','Moderate','High','Critical']
         ]);
@@ -100,17 +102,17 @@ class IssueController extends Controller
         if ($request->hasFile('attachments')) {
             $file = $request->file('attachments');
             $path = $file->store('attachments');
-            $issue->attachments = $path;
+            $issue->attachments = $path; //we store the path after storing the file
             $issue->save();
         }
 
-            //sendmail
-      //  $user_name = $request->user()->name;
+        //sendmail
+        //  $user_name = $request->user()->name;
 
-      //  \Mail::to('testreceiver@gmail.com’')->send(new CreatedEmail($user_name));
+        //  \Mail::to('testreceiver@gmail.com’')->send(new CreatedEmail($user_name));
 
 
-        return redirect("issue/{$issue->id}")->with('success','Post Success');
+        return redirect("issue/{$issue->id}")->with('success', 'Post Success');
     }
 
     /**
@@ -118,7 +120,6 @@ class IssueController extends Controller
      */
     public function show(Issue $issue)
     {
-       // dd($issue);
         $issue->load(['reporter']);
         return inertia('Index/Show', [
             'issue' => $issue
@@ -135,7 +136,7 @@ class IssueController extends Controller
         $this->authorize('update', $issue);
 
 
-        return inertia('Issue/EditIssue',[
+        return inertia('Issue/EditIssue', [
             'issue' => $issue,
             'departments' => ['Web', 'Android','iOS'],
             'priorities' => ['Very Low', 'Low','Moderate','High','Critical']
@@ -144,11 +145,10 @@ class IssueController extends Controller
     }
 
     public function edit_dev(Issue $issue)
-
     {
-        $this->authorize('updateDev',$issue);
+        $this->authorize('updateDev', $issue);
 
-        return inertia('Issue/EditIssueDev',[
+        return inertia('Issue/EditIssueDev', [
             'issue' => $issue,
             'statuses' =>['Pending', 'In Progress','Complete','Rejected']
 
@@ -178,7 +178,7 @@ class IssueController extends Controller
             $issue->save();
         }
 
-        return redirect()->route('index')->with('success','Edit Success');
+        return redirect()->route('index')->with('success', 'Edit Success');
     }
 
     /**
@@ -191,7 +191,16 @@ class IssueController extends Controller
         $issue->update($request->validate([
             'status' => 'required',
         ]));
-        return redirect('/dev')->with('success','Status Update Success');
+
+        // Check if the status has changed to 'Complete'
+        if ($issue->status === 'Complete' && $request->input('status') === 'Complete') {
+            // Dispatch the job to delete the attachment
+
+            DeleteCompletedAttachments::dispatch($issue);
+
+        }
+
+        return redirect('/dev')->with('success', 'Status Update Success');
     }
 
 
@@ -211,7 +220,6 @@ class IssueController extends Controller
      * Remove the specified resource attached file from storage.
      */
     public function destroy_file(Issue $issue)
-
     {
         //dd($issue->attachments);
         //$this->authorize('delete', $issue);

@@ -19,7 +19,7 @@
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5 rounded-md border-white outline-white">
                                 <div class="md:col-span-5">
                                     <label for="full_name">Title</label>
-                                    <input type="text" v-model="formData.title" id="full_name" class="h-10 outline-white border-gray-300 mt-1 rounded px-4 w-full"/>
+                                    <input type="text" v-model="formData.title" id="full_name" class="h-10 outline-white border border-gray-300 mt-1 rounded px-4 w-full"/>
                                     <p v-if="formData.errors.title" class="text-sm text-red-500 font-semibold">{{formData.errors.title}}</p>
 
                                 </div>
@@ -84,17 +84,15 @@
                                 </div>
 
 
-                                <div class="md:col-span-5 mt-6">
-                                    <div class="inline-flex items-center">
-                                        <input type="checkbox" name="billing_same" id="billing_same" class="form-checkbox" />
-                                        <label for="billing_same" class="ml-2">Delete attachments on issue completion</label>
-                                    </div>
+
+                                <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments">
+                                    <p class="text-black text-md font-semibold mt-2">Existing attachments</p>
+
+                                    <img :src="attachmentPreview" v-if="attachmentPreview" height="300" width="300" class="rounded-3 mt-4" />
                                 </div>
 
-                                <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments" @click="clearFiles">
-                                    <p class="text-black text-md font-semibold mt-2">Existing attachments</p>
-                                    <img :src="formData.att" v-if="formData.attachments" height="300" width="300" class="rounded-3 mt-4" />
-                                </div>
+
+
 
 
                                 <div class="md:col-span-5 text-right">
@@ -134,6 +132,7 @@ export default {
 import {useForm} from "@inertiajs/vue3";
 import {Link} from "@inertiajs/vue3";
 import FlashSuccess from "@/Components/FlashSuccess.vue";
+import {ref} from "vue";
 
 const props = defineProps({
     issue:Object,
@@ -142,7 +141,7 @@ const props = defineProps({
     departments: Array
 });
 
-
+const attachmentPreview= ref( props.issue.att)
 
 const formData = useForm({
 //create form and v-model the elements
@@ -155,10 +154,29 @@ const formData = useForm({
 });
 
 const packFiles = (event) => {
-    for(const att of event.target.files){
-        formData.attachments=att;
+    for (const att of event.target.files) {
+        formData.attachments = att;
+
     }
+
+    // let['s do for one for now
+    let file= event.target.files[0]
+    if(!file){
+        return
+    }
+
+    const  reader = new FileReader()
+    reader.onload=(e)=>{
+        attachmentPreview.value=e.target.result
+    }
+
+    reader.readAsDataURL(file)
+    console.log(attachmentPreview._rawValue);
+
+
 }
+
+
 
 const clearFiles = () =>{
     formData.attachments = null;

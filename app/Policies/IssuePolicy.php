@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Issue;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class IssuePolicy
 {
@@ -47,7 +48,7 @@ class IssuePolicy
         //return true;
     }
 
-    public function updateDev(User $user, Issue $issue) : bool
+    public function updateDev(User $user, Issue $issue): bool
     {
         return $user->role =='dev' && $issue->department == $user->department;
         //return true;

@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -31,12 +32,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
             if(Auth::user()->role =='dev') {
                 return redirect('/dev');
+            } else {
+                return redirect('/');
             }
-
-            else return redirect('/');
-        }
-
-        else{
+        } else {
             throw ValidationException::withMessages([
                'email' => 'Validation Error'
             ]);
