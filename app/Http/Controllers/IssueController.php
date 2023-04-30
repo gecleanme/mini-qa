@@ -159,24 +159,25 @@ class IssueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Issue $issue)
+    public function update(Issue $issue, Request $request)
     {
         $this->authorize('update', $issue);
 
-        $issue->update($request->validate([
+        $data = $request->validate([
             'title' => 'required|min:5|max:120',
             'department' => 'required',
             'priority' => 'required',
             'description' => 'required',
-            'attachments' =>''
-        ]));
+            'attachments' => 'mimes:mp4,jpg,png'
+        ]);
 
         if ($request->hasFile('attachments')) {
             $file = $request->file('attachments');
             $path = $file->store('attachments');
-            $issue->attachments = $path;
-            $issue->save();
+            $data['attachments'] = $path;
         }
+
+        $issue->update($data);
 
         return redirect()->route('index')->with('success', 'Edit Success');
     }

@@ -7,6 +7,7 @@ namespace App\Console\Commands;
 use App\Models\Issue;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
 
 class CreateUser extends Command
 {
@@ -33,7 +34,7 @@ class CreateUser extends Command
         // Get the user input
         $name = $this->ask('Enter name');
         $email = $this->ask('Enter email');
-        $password = bcrypt($this->secret('What is the password?'));
+        $password = Hash::make($this->secret('What is the password?'));
         $role = $this->choice('Enter role', ['QA','dev']);
 
         $departments=Issue::query()->select('department')->get()->pluck('department')->unique()->toArray();

@@ -88,7 +88,8 @@
                                 <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments">
                                     <p class="text-black text-md font-semibold mt-2">Existing attachments</p>
 
-                                    <img :src="attachmentPreview" v-if="attachmentPreview" height="300" width="300" class="rounded-3 mt-4" />
+                                    <img :src="attachmentPreview" v-if="attachmentPreview.includes('image')" height="300" width="300" class="rounded-3 mt-4" />
+                                    <video controls :src="attachmentPreview" v-if="attachmentPreview.includes('video')" height="300" width="300" class="rounded-3 mt-4"></video>
                                 </div>
 
 
@@ -145,12 +146,12 @@ const attachmentPreview= ref( props.issue.att)
 
 const formData = useForm({
 //create form and v-model the elements
+    _method:'put', //uploading files need to be post, spoofing done here
     title: props.issue.title,
     department:props.issue.department,
     priority:props.issue.priority,
     description:props.issue.description,
-    attachments: props.issue.attachments,
-    att: props.issue.att
+    attachments: props.issue.attachments ?? null
 });
 
 const packFiles = (event) => {
@@ -159,7 +160,6 @@ const packFiles = (event) => {
 
     }
 
-    // let['s do for one for now
     let file= event.target.files[0]
     if(!file){
         return
@@ -171,7 +171,6 @@ const packFiles = (event) => {
     }
 
     reader.readAsDataURL(file)
-    console.log(attachmentPreview._rawValue);
 
 
 }
@@ -183,7 +182,7 @@ const clearFiles = () =>{
 }
 
 
-const updateData = () => formData.put(`/issue/${props.issue.id}`)
+const updateData = () => formData.post(`/issue/${props.issue.id}`) //actually sends put through spoofing
 </script>
 
 <style scoped>
