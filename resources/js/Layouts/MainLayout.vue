@@ -50,15 +50,17 @@
 
 
             </nav>
-            <Link href="/createIssue" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base md:mt-0"
-            v-if="$page.props.user?.role==='QA'">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                <path d="M12 5v14M5 12h14"></path>
-            </svg>
+            <div class=" xs:mt-5 md:">
+            <Link href="/createIssue" class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base sm:mt-4 md:mt-0"
+                  v-if="$page.props.user?.role==='QA'">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14"></path>
+                </svg>
 
-            Create Issue
-
+                Create Issue
             </Link>
+            </div>
+
         </div>
     </header>
     <slot></slot>

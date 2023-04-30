@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/landing', [\App\Http\Controllers\IssueController::class,'landing'])->name('landing');
     Route::get('/', [\App\Http\Controllers\IssueController::class,'index'])->name('index');
     Route::get('issue/{issue}', [\App\Http\Controllers\IssueController::class,'show']);
     Route::get('/createIssue', [\App\Http\Controllers\IssueController::class,'create']);
