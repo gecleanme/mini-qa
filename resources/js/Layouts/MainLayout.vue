@@ -8,7 +8,7 @@
                 </svg>
                 <span class="ml-3 text-xl">SimpleQA</span>
             </a>
-            <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            <nav class="m-2 md:ml-auto flex flex-wrap items-center text-base justify-center">
 
                 <Link
                     :href=myIssuesLink()
@@ -20,16 +20,27 @@
                 </Link>
 
 
+                <Link
+                    :href=myAllIssuesLink()
+                    as="button"
+                    class="mr-5 hover:text-gray-900"
+                    v-if="$page.props.user"
+                >
+                    All Issues
+                </Link>
+
+
+
                 <!--                <a class="mr-5 hover:text-gray-900">Second Link</a>-->
                 <Link
-                    class="mr-5 hover:text-gray-900"
+                    class="hover:text-gray-900"
                     href="/logout"
                     method="delete"
                     as="button"
                     v-if="$page.props.user"
                 >Logout</Link>
 
-                    <div class="mr-5 hover:text-gray-900">
+                    <div class="m-4 hover:text-gray-900">
                         <v-switch
                             v-if="$page.props.user && $page.component==='Index/Index'"
                             v-model="switcher"
@@ -104,12 +115,12 @@ const userData = computed(
     }
 );
 
+const baseUrl = 'http://localhost:8000';
+const baseUrlDev = 'http://localhost:8000/dev'
+
 const myIssuesLink = () => {
     const { user } = usePage().props;
-    const baseUrl = 'http://localhost:8000';
-    const baseUrlDev = 'http://localhost:8000/dev'
     let link = '';
-
     if (user.role === 'dev') {
         link = `${baseUrlDev}?priority=&statuses=Pending&title=&reporters=`;
     } else {
@@ -118,6 +129,19 @@ const myIssuesLink = () => {
 
     return link;
 };
+
+const myAllIssuesLink = () =>{
+    const { user } = usePage().props;
+
+    let link = '';
+    if (user.role === 'dev') {
+        link = baseUrlDev;
+    } else {
+        link = baseUrl;
+    }
+
+    return link;
+}
 
 
 
