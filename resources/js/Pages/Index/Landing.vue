@@ -14,7 +14,7 @@
 
     <div class="mx-auto w-fit">
 
-        <div class="stats stats-vertical lg:stats-horizontal shadow mb-8">
+        <div class="stats stats-vertical lg:stats-horizontal shadow shadow-lg mb-8">
 
             <div class="stat">
                 <div class="stat-title">Issues</div>

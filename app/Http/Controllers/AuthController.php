@@ -30,11 +30,7 @@ class AuthController extends Controller
 
         if(Auth::attempt($userData)) {
             $request->session()->regenerate();
-            if(Auth::user()->role =='dev') {
-                return redirect('/dev');
-            } else {
-                return redirect('/');
-            }
+            return redirect()->route('landing');
         } else {
             throw ValidationException::withMessages([
                'email' => 'Validation Error'
