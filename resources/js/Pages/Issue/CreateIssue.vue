@@ -87,6 +87,15 @@
                                     </div>
 
 
+                                <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments">
+                                    <p class="text-black text-md font-semibold mt-2">Attachments</p>
+
+                                    <img :src="attachmentPreview" v-if="attachmentPreview.includes('image')" height="300" width="300" class="rounded-3 mt-4" />
+                                    <video controls :src="attachmentPreview" v-if="attachmentPreview.includes('video')" height="300" width="300" class="rounded-3 mt-4"></video>
+                                </div>
+
+
+
                                 <div class="md:col-span-5 mt-2">
                                     <p class="text-sm text-red-500 font-italic">
                                         *Attachments will be deleted upon issue completion
@@ -122,6 +131,8 @@
 
 <script setup>
 
+import {ref} from "vue";
+
 defineProps({
    priorities: Array,
    departments: Array
@@ -140,10 +151,28 @@ const formData = useForm({
 
 });
 
+const attachmentPreview= ref( formData.attachments)
+
+
 const packFiles = (event) => {
  for(const att of event.target.files){
      formData.attachments=att;
  }
+
+
+    let file= event.target.files[0]
+    if(!file){
+        return
+    }
+
+    const  reader = new FileReader()
+    reader.onload=(e)=>{
+        attachmentPreview.value=e.target.result
+    }
+
+    reader.readAsDataURL(file)
+
+
 }
 
 const reset = () => formData.reset();
