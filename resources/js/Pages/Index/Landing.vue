@@ -104,7 +104,7 @@ let index = ref(Math.floor(Math.random() * 100));
 
 onMounted(() =>{
     let total = props.complete + props.pending;
-    return pct.value = (props.complete / total) * 100;
+    return pct.value = (props.complete / total).toFixed(1) * 100;
     }
 );
 
