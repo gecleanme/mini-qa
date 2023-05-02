@@ -46,7 +46,7 @@
                     focus:border-transparent"
                             v-model="props.reporters"
                     >
-                        <option :value="null">Reporter</option>
+                        <option selected value="">Reporter</option>
                         <option v-for="(reporter, index) in reporters.data" :key="index" :value="reporter.id">{{reporter.name}}</option>
                     </select>
 

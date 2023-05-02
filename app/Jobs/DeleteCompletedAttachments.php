@@ -30,7 +30,7 @@ class DeleteCompletedAttachments implements ShouldQueue
     public function __construct(Issue $issue)
     {
         $this->issue = $issue;
-        \Log::info($issue);
+        //\Log::info($issue);
     }
 
     /**
@@ -42,7 +42,7 @@ class DeleteCompletedAttachments implements ShouldQueue
     {
         // Get the file path
         $filePath = $this->issue->attachments;
-        \Log::info($filePath);
+        //\Log::info($filePath);
 
         // Check if the file exists, choose disk, then pass path to helper method
         if (Storage::disk('public')->exists($filePath)) {

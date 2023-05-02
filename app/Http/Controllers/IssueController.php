@@ -23,90 +23,14 @@ class IssueController extends Controller
 
     public function landing()
     {
-        //Quotes Array
-
-        $quotes = array(
-            array(
-                "quote" => "Believe you can and you're halfway there.",
-                "author" => "Theodore Roosevelt"
-            ),
-            array(
-                "quote" => "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-                "author" => "Winston Churchill"
-            ),
-            array(
-                "quote" => "You are never too old to set another goal or to dream a new dream.",
-                "author" => "C.S. Lewis"
-            ),
-            array(
-                "quote" => "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
-                "author" => "Christian D. Larson"
-            ),
-            array(
-                "quote" => "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it.",
-                "author" => "Steve Jobs"
-            ),
-            array(
-                "quote" => "Don't watch the clock; do what it does. Keep going.",
-                "author" => "Sam Levenson"
-            ),
-            array(
-                "quote" => "I attribute my success to this: I never gave or took any excuse.",
-                "author" => "Florence Nightingale"
-            ),
-            array(
-                "quote" => "The greatest glory in living lies not in never falling, but in rising every time we fall.",
-                "author" => "Ralph Waldo Emerson"
-            ),
-            array(
-                "quote" => "Challenges are what make life interesting and overcoming them is what makes life meaningful.",
-                "author" => "Joshua J. Marine"
-            ),
-            array(
-                "quote" => "You don't have to be great to start, but you have to start to be great.",
-                "author" => "Zig Ziglar"
-            ),
-            array(
-                "quote" => "It does not matter how slowly you go as long as you do not stop.",
-                "author" => "Confucius"
-            ),
-            array(
-                "quote" => "The best revenge is massive success.",
-                "author" => "Frank Sinatra"
-            ),
-            array(
-                "quote" => "The future belongs to those who believe in the beauty of their dreams.",
-                "author" => "Eleanor Roosevelt"
-            ),
-            array(
-                "quote" => "Believe you can and you're halfway there.",
-                "author" => "Theodore Roosevelt"
-            ),
-            array(
-                "quote" => "A person who never made a mistake never tried anything new.",
-                "author" => "Albert Einstein"
-            ),
-            array(
-                "quote" => "If you can't fly then run, if you can't run then walk, if you can't walk then crawl, but whatever you do you have to keep moving forward.",
-                "author" => "Martin Luther King Jr."
-            ),
-            array(
-                "quote" => "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it.",
-                "author" => "Steve Jobs"
-            )
-        );
-
-
         $this->middleware('auth');
         $pending_count= Issue::query()->where('status' ,'=' ,'Pending')->count();
         $complete_count= Issue::query()->where('status' ,'=' ,'Complete')->count();
-        $quote = $quotes[rand(0,16)];
 
 
         return Inertia::render('Index/Landing',[
            'pending' => $pending_count,
-            'complete' => $complete_count,
-            'quote' => $quote
+            'complete' => $complete_count
         ]);
     }
 

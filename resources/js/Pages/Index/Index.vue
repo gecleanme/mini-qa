@@ -8,21 +8,6 @@
 
     />
 
-            <!--
-
-               <v-container>
-    <v-row>
-      <v-col cols="12" md="6">
-        <v-skeleton-loader
-          class="mx-auto border"
-          max-width="300"
-          type="card-avatar, actions"
-        ></v-skeleton-loader>
-      </v-col>
-
-              -->
-
-
     <!-- Template Start   -->
         <div class="overflow-x-auto">
         <div class="w-full sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-auto">
