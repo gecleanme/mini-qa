@@ -85,16 +85,11 @@
 
 
 
-                                <div class="md:col-span-5 mt-6 mt-4 space-x-2" v-if="formData.attachments">
-                                    <p class="text-black text-md font-semibold mt-2">Existing attachments</p>
-
+                                <div class="md:col-span-5 mt-6 mt-4 space-x-2">
+                                    <p class="text-black text-md font-semibold mt-2" v-if="attachmentPreview">Existing attachments</p>
                                     <img :src="attachmentPreview" v-if="attachmentPreview.includes('image')" height="300" width="300" class="rounded-3 mt-4" />
                                     <video controls :src="attachmentPreview" v-if="attachmentPreview.includes('video')" height="300" width="300" class="rounded-3 mt-4"></video>
                                 </div>
-
-
-
-
 
                                 <div class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
