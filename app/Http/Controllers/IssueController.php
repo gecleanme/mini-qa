@@ -16,7 +16,6 @@ use Storage;
 
 class IssueController extends Controller
 {
-
     /*
      * Landing
      * */
@@ -24,11 +23,11 @@ class IssueController extends Controller
     public function landing()
     {
         $this->middleware('auth');
-        $pending_count= Issue::query()->where('status' ,'=' ,'Pending')->count();
-        $complete_count= Issue::query()->where('status' ,'=' ,'Complete')->count();
+        $pending_count= Issue::query()->where('status', '=', 'Pending')->count();
+        $complete_count= Issue::query()->where('status', '=', 'Complete')->count();
 
 
-        return Inertia::render('Index/Landing',[
+        return Inertia::render('Index/Landing', [
            'pending' => $pending_count,
             'complete' => $complete_count
         ]);
@@ -113,7 +112,7 @@ class IssueController extends Controller
             'priority' => 'required',
             'description' => 'required',
             'status' => 'sting',
-            'attachments' => 'mimes:mp4,jpg,png'
+            'attachments' => 'nullable|mimes:mp4,jpg,png'
         ]);
 
         $issue = $request->user()->issues()->create($validatedData);
@@ -187,7 +186,7 @@ class IssueController extends Controller
             'department' => 'required',
             'priority' => 'required',
             'description' => 'required',
-            'attachments' => 'mimes:mp4,jpg,png'
+            'attachments' => 'nullable|mimes:mp4,jpg,png'
         ]);
 
         if ($request->hasFile('attachments')) {
