@@ -1,7 +1,7 @@
 export default {
-    methods:{
-        logger(){
-            return console.log('Hi from Mixin!');
-        }
-    }
-}
+    methods: {
+        logger() {
+            return console.log("Hi from Mixin!");
+        },
+    },
+};

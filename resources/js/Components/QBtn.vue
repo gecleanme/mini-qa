@@ -1,26 +1,15 @@
 <template>
-
-    <button class="bg-blue-600 text-white rounded-md shadow-md py-2 px-3 ">
-
-
-
-        <slot/>
-
+    <button class="bg-blue-600 text-white rounded-md shadow-md py-2 px-3">
+        <slot />
     </button>
-
 </template>
 
 <script>
 export default {
-    name: "QBtn"
-}
+    name: "QBtn",
+};
 </script>
 
-<script setup>
+<script setup></script>
 
-
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
