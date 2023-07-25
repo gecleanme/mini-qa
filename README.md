@@ -5,6 +5,7 @@
 ## Tech & Tools:
 
 -   Laravel (v10 base)
+-   [Inertia.js](https://inertiajs.com/)
 -   Vue 3: Composition API with `script setup`
 -   Tailwind CSS
 -   [DaisyUI](https://daisyui.com/)
